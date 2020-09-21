@@ -4,9 +4,9 @@ const modeltemplateLandOwnerData = {
   host_data: `
   {
     "meta": {
-      "position": {"x":8,"y":0.6,"z":8},
+      "position": {"x":8,"y":1,"z":8},
       "rotation": {"x":0,"y":0,"z":0},
-      "scale": {"x":1.6,"y":1.6,"z":1.6}
+      "scale": {"x":1,"y":1,"z":1}
     }
   }`
 }
