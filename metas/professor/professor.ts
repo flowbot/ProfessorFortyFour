@@ -1,12 +1,12 @@
 
-export class ModelTemplate implements ISystem {
+export class Professor implements ISystem {
   META_ID = 0 // Change to your MetaZone meta number identifier
 
   api = null
   host = null
 
   /// --- Lets make a 3D model ---
-  modelEntity = null
+  professorModel = null
 
   // active gardens
   gardens: Array<string> = ["-104,-85","10,70","-114,-70","-115,-69","119,-20","-125,-67","-133,-68","-138,-124","-140,-50","140,-56","142,-59","-144,-123","144,-53","14,-86","150,4","18,-119","21,-125","2,-135","21,88","24,-137","-24,-23","-24,7","-26,-116","-27,4","28,-119","31,-65","32,67","3,-34","-35,-87","-38,-53","39,-122","-39,31","41,-1","4,-111","43,-1","-44,-110","45,-1","46,-1","-48,-56","-48,-57","49,-6","49,-91","5,-111","-55,-3","56,119","57,28","58,-24","60,-124","6,-111","62,29","-62,45","6,-64","-75,-63","88,29","90,135","-91,-91"]
@@ -28,12 +28,12 @@ export class ModelTemplate implements ISystem {
     // Initialize all scene entities here
 
     /// --- Lets spawn a 3d model ---
-    this.modelEntity = new Entity()
-    this.modelEntity.addComponent(new GLTFShape('metas/modeltemplate/models/alice.glb'))
-    this.modelEntity.addComponent(new Transform({
+    this.professorModel = new Entity()
+    this.professorModel.addComponent(new GLTFShape('metas/professor/models/alice.glb'))
+    this.professorModel.addComponent(new Transform({
       position: new Vector3(0, 2, 0)
     }))
-    this.modelEntity.addComponent(
+    this.professorModel.addComponent(
       new OnPointerDown(
         e =>{
           teleportTo(this.randonGarden())
@@ -44,7 +44,7 @@ export class ModelTemplate implements ISystem {
         }
       )
     );
-    engine.addEntity(this.modelEntity)
+    engine.addEntity(this.professorModel)
 
     ///////// Your static scene assets ///////////
 
@@ -89,17 +89,17 @@ export class ModelTemplate implements ISystem {
       // You decide which of your creation's entities the landowner can adjust.
 
       /// --- Lets adjust our 3d model ---
-      this.modelEntity.getComponent(Transform).position.set(
+      this.professorModel.getComponent(Transform).position.set(
         host_data.meta.position.x,
         host_data.meta.position.y,
         host_data.meta.position.z
       )
-      this.modelEntity.getComponent(Transform).rotation.setEuler(
+      this.professorModel.getComponent(Transform).rotation.setEuler(
         host_data.meta.rotation.x,
         host_data.meta.rotation.y,
         host_data.meta.rotation.z
       )
-      this.modelEntity.getComponent(Transform).scale.set(
+      this.professorModel.getComponent(Transform).scale.set(
         host_data.meta.scale.x,
         host_data.meta.scale.y,
         host_data.meta.scale.z
