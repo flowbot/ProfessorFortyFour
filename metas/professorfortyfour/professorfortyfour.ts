@@ -174,7 +174,7 @@ export function addFaceUserSystem(dummyTarget: Entity) {
 
 let NPCTalk: Dialog[] = [
   {
-    text: 'Hi there, I am Professor Forty Four! I am here to help you navigate Ethermon location in Decentraland. Have you found a Garden to dig in yet?',
+    text: 'Hi there, I am Professor Forty Four! I am here to help you navigate Ethermon locations in Decentraland. Have you found a Garden to dig in yet?',
     isQuestion: true,
     labelE: { label: "YES", fontSize: 14 },
     ifPressE: 1,
@@ -182,7 +182,7 @@ let NPCTalk: Dialog[] = [
     ifPressF: 2,
   },
   {
-    text: 'Would you like me to teleport you to another an Ethermon Garden location to continute your search?',
+    text: 'Would you like me to teleport you to another Ethermon Garden location to continute your search?',
     isQuestion: true,
     labelE: { label: "YES", fontSize: 14 },
     triggeredByE: () => {
@@ -193,14 +193,14 @@ let NPCTalk: Dialog[] = [
     ifPressF: 5,
   },
   {
-    text: 'Check near by for an Ethermon Garden, when you find one you can dig in it for a chance to find a rare egg or other goodies.',
+    text: 'Check nearby for an Ethermon Garden, when you find one you can dig in it for a chance to find a rare egg or other goodies.',
   },
   {
     text: 'Come back here and I can teleport you to another garden location once you have found one!',
     isEndOfDialog: true,
   },
   {
-    text: 'Bloop bloop bloop...oh you decided not to go, ok just let me know when you are ready',
+    text: 'bloop bloop bloop...oh you decided not to teleport? ok I am here if you change your mind.',
     isEndOfDialog: true,
   },
   {
