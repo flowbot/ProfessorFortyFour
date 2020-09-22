@@ -1,4 +1,5 @@
 import * as ui from '../../node_modules/@dcl/ui-utils/index'
+import { addFaceUserSystem,TrackUserSlerp} from "../../src/modules/faceUserSystem"
 import { NPCTalk } from "./dialogData"
 
 export class Professor implements ISystem {
@@ -60,6 +61,19 @@ export class Professor implements ISystem {
     )
     ringsModel.setParent(this.professorModel)
     engine.addEntity(this.professorModel)
+
+
+    const dummyTarget = new Entity()
+    dummyTarget.addComponent(new PlaneShape())
+    dummyTarget.addComponent(new Transform())
+    addFaceUserSystem(dummyTarget)
+
+    // Track user's position
+    dummyTarget.getComponent(Transform).position = this.professorModel
+    .getComponent(Transform).position
+    if (!this.professorModel.hasComponent(TrackUserSlerp))
+    this.professorModel.addComponent(new TrackUserSlerp())
+
 
     ///////// Your static scene assets ///////////
 
