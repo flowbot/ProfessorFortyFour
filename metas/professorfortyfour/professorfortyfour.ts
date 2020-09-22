@@ -1,6 +1,5 @@
 import * as ui from '../../node_modules/@dcl/ui-utils/uiDialog/index'
-import { addFaceUserSystem,TrackUserSlerp} from "./modules/faceUserSystem"
-import { NPCTalk } from "./dialogData"
+import { Dialog } from '../../node_modules/@dcl/ui-utils/utils/types'
 
 export class Professor implements ISystem {
   // active gardens
@@ -131,3 +130,72 @@ export class Professor implements ISystem {
   }
 
 }
+
+@Component("trackUserSlerp")
+class TrackUserSlerp {
+  fraction: number = 0
+}
+
+let currentCameraPosition = new Vector3()
+
+// Rotates robot to face the user during interaction
+export function addFaceUserSystem(dummyTarget: Entity) {
+  class FaceUserSystem implements ISystem {
+    private robotGroup: ComponentGroup = engine.getComponentGroup(
+      TrackUserSlerp
+    )
+
+    update(dt: number) {
+      for (let robot of this.robotGroup.entities) {
+        let transform = robot.getComponent(Transform)
+        let trackUserSlerp = robot.getComponent(TrackUserSlerp)
+        
+        // Check if player moves
+        if(!currentCameraPosition.equals(Camera.instance.position)) {
+          // Update current camera position
+          currentCameraPosition.copyFrom(Camera.instance.position)
+          trackUserSlerp.fraction = 0
+        }
+
+        dummyTarget.getComponent(Transform).lookAt(Camera.instance.position)
+
+        trackUserSlerp.fraction += dt / 12
+
+        if (trackUserSlerp.fraction < 1) {
+          transform.rotation = Quaternion.Slerp(
+            robot.getComponent(Transform).rotation,
+            dummyTarget.getComponent(Transform).rotation,
+            trackUserSlerp.fraction
+          )
+        }
+      }
+    }
+  }
+
+  engine.addSystem(new FaceUserSystem())
+}
+
+let NPCTalk: Dialog[] = [
+  {
+    text: 'Hi there, I am Professor Forty Four! I am here to help you navigate Ethermon location in Decentraland',
+  },
+  {
+    text: 'Would you like me to teleport you now to an Ethermon Garden location?',
+    isQuestion: true,
+    labelE: { label: "YES", fontSize: 14 },
+    triggeredByE: () => {
+      Professor.randonGardenTeleport()
+    },
+    ifPressE: 3,
+    labelF: { label: "NO", fontSize: 14 },
+    ifPressF: 2,
+  },
+  {
+    text: 'Welp, that is all I can do right now talk to you later',
+    isEndOfDialog: true,
+  },
+  {
+    text: 'bloop bloop bloop...oh you decided not to go, ok just let me know when you are ready',
+    isEndOfDialog: true,
+  },
+]
