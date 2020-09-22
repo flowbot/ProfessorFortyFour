@@ -1,5 +1,5 @@
-import * as ui from '../../node_modules/@dcl/ui-utils/index'
-import { addFaceUserSystem,TrackUserSlerp} from "../../src/modules/faceUserSystem"
+import * as ui from '../../node_modules/@dcl/ui-utils/uiDialog/index'
+import { addFaceUserSystem,TrackUserSlerp} from "./modules/faceUserSystem"
 import { NPCTalk } from "./dialogData"
 
 export class Professor implements ISystem {
@@ -34,7 +34,7 @@ export class Professor implements ISystem {
 
     /// --- Lets spawn a 3d model ---
     this.professorModel = new Entity()
-    this.professorModel.addComponent(new GLTFShape('metas/professor/models/alice.glb'))
+    this.professorModel.addComponent(new GLTFShape('metas/professorfortyfour/models/alice.glb'))
     this.professorModel.addComponent(new Transform({
       position: new Vector3(8, 1, 8)
     }))
@@ -53,7 +53,7 @@ export class Professor implements ISystem {
       )
     )
     const ringsModel = new Entity()
-    ringsModel.addComponent(new GLTFShape('metas/professor/models/rings.glb'))
+    ringsModel.addComponent(new GLTFShape('metas/professorfortyfour/models/rings.glb'))
     ringsModel.addComponent(
       new Transform({
         position: new Vector3(0, -0.65, 0),

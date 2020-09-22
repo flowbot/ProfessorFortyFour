@@ -1,6 +1,6 @@
-import { Professor } from '../metas/professor/professor'
+import { Professor } from '../metas/professorfortyfour/professorfortyfour'
 
-const modeltemplateLandOwnerData = {
+const professorfortyfourLandOwnerData = {
   host_data: `
   {
     "meta": {
@@ -12,4 +12,4 @@ const modeltemplateLandOwnerData = {
 }
 
 /// --- Set up your meta system to test ---
-engine.addSystem(new Professor(null, modeltemplateLandOwnerData))
+engine.addSystem(new Professor(null, professorfortyfourLandOwnerData))

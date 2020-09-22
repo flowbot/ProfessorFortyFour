@@ -1,5 +1,5 @@
 import { Dialog } from '../../node_modules/@dcl/ui-utils/utils/types'
-import { Professor } from './professor'
+import { Professor } from './professorfortyfour'
 
 export let NPCTalk: Dialog[] = [
     {
