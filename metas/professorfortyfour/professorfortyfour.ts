@@ -3,12 +3,13 @@ import { Dialog } from '../../node_modules/@dcl/ui-utils/utils/types'
 
 export class Professor implements ISystem {
   // active gardens
+  //todo get from an api
   static gardens: Array<string> = ["-104,-85","10,70","-114,-70","-115,-69","119,-20","-125,-67","-133,-68","-138,-124","-140,-50","140,-56","142,-59","-144,-123","144,-53","14,-86","150,4","18,-119","21,-125","2,-135","21,88","24,-137","-24,-23","-24,7","-26,-116","-27,4","28,-119","31,-65","32,67","3,-34","-35,-87","-38,-53","39,-122","-39,31","41,-1","4,-111","43,-1","-44,-110","45,-1","46,-1","-48,-56","-48,-57","49,-6","49,-91","5,-111","-55,-3","56,119","57,28","58,-24","60,-124","6,-111","62,29","-62,45","6,-64","-75,-63","88,29","90,135","-91,-91"]
   static randonGardenTeleport() {
     teleportTo(this.gardens[this.gardens.length * Math.random() | 0]) 
   }
 
-  META_ID = 0 // Change to your MetaZone meta number identifier
+  META_ID = 270 // Change to your MetaZone meta number identifier
 
   api = null
   host = null
@@ -40,7 +41,6 @@ export class Professor implements ISystem {
     this.professorModel.addComponent(
       new OnPointerDown(
         e =>{
-          //teleportTo(this.randonGarden())  
           if (!dialogWindow.isDialogOpen){
             dialogWindow.openDialogWindow(NPCTalk, 0)
           }
@@ -61,20 +61,7 @@ export class Professor implements ISystem {
     ringsModel.setParent(this.professorModel)
     engine.addEntity(this.professorModel)
 
-
-    const dummyTarget = new Entity()
-    dummyTarget.addComponent(new PlaneShape())
-    dummyTarget.addComponent(new Transform())
-    addFaceUserSystem(dummyTarget)
-
-    // Track user's position
-    dummyTarget.getComponent(Transform).position = this.professorModel
-    .getComponent(Transform).position
-    if (!this.professorModel.hasComponent(TrackUserSlerp))
-    this.professorModel.addComponent(new TrackUserSlerp())
-
-
-    ///////// Your static scene assets ///////////
+     ///////// Your static scene assets ///////////
 
     // Initial host data
     this.refreshHost(host_data)
@@ -88,6 +75,16 @@ export class Professor implements ISystem {
    */
   update(dt: number) {
     // Note: your code that repeats goes here
+    const dummyTarget = new Entity()
+    dummyTarget.addComponent(new PlaneShape())
+    dummyTarget.addComponent(new Transform())
+    addFaceUserSystem(dummyTarget)
+
+    // Track user's position
+    dummyTarget.getComponent(Transform).position = this.professorModel
+    .getComponent(Transform).position
+    if (!this.professorModel.hasComponent(TrackUserSlerp))
+    this.professorModel.addComponent(new TrackUserSlerp())
   }
 
   /**
