@@ -1,14 +1,14 @@
 import * as ui from '../../node_modules/@dcl/ui-utils/uiDialog/index'
 import { Dialog } from '../../node_modules/@dcl/ui-utils/utils/types'
 
-export class Professor implements ISystem {
+export class ProfessorFortyFour implements ISystem {
   // active gardens
   //todo get from an api
   gardens: Array<string> = []
   randonGardenTeleport() {
     teleportTo(this.gardens[this.gardens.length * Math.random() | 0])
   }
-  
+
   NPCTalk: Dialog[] = [
     {
       text: 'Hi there, I am Professor Forty Four! I am here to help you navigate Ethermon locations in Decentraland. Have you found a Garden to dig in yet?',
