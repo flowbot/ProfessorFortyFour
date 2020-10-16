@@ -2,46 +2,58 @@ import * as ui from '../../node_modules/@dcl/ui-utils/uiDialog/index'
 import { Dialog } from '../../node_modules/@dcl/ui-utils/utils/types'
 
 export class Professor implements ISystem {
-  // active gardens
+  // active gardens & nests
   //todo get from an api
   gardens: Array<string> = []
-  randonGardenTeleport() {
+  nests: Array<string> = []
+
+  randomGardenTeleport() {
     teleportTo(this.gardens[this.gardens.length * Math.random() | 0])
+  }
+
+  randomNestTeleport() {
+    teleportTo(this.nests[this.nests.length * Math.random() | 0])
   }
   
   NPCTalk: Dialog[] = [
     {
-      text: 'Hi there, I am Professor Forty Four! I am here to help you navigate Ethermon locations in Decentraland. Have you found a Garden to dig in yet?',
-      isQuestion: true,
-      labelE: { label: "YES", fontSize: 14 },
-      ifPressE: 1,
-      labelF: { label: "NO", fontSize: 14 },
-      ifPressF: 2,
+      text: 'Hi there, I am Professor Forty Four! I am here to help you navigate Ethermon locations in Decentraland.',
     },
     {
-      text: 'Would you like me to teleport you to another Ethermon Garden location to continute your search?',
+      text: 'Have you seen an Ethermon Egg Nest yet? You can buy an Egg and hatch it into an Ethermon to take care of in Decentraland.',
+    },
+    {
+      text: 'Would you like me to teleport you to an Egg Nest location?',
       isQuestion: true,
       labelE: { label: "YES", fontSize: 14 },
       triggeredByE: () => {
-        this.randonGardenTeleport()
+        this.randomNestTeleport()
       },
-      ifPressE: 4,
+      ifPressE: 3,
       labelF: { label: "NO", fontSize: 14 },
-      ifPressF: 5,
+      ifPressF: 4,
     },
     {
-      text: 'Check nearby for an Ethermon Garden, when you find one you can dig in it for a chance to find a rare egg or other goodies.',
-    },
-    {
-      text: 'Come back here and I can teleport you to another garden location once you have found one!',
+      text: 'bloop bloop bloop...oh you decided not to teleport? I am here if you change your mind.',
       isEndOfDialog: true,
     },
     {
-      text: 'bloop bloop bloop...oh you decided not to teleport? ok I am here if you change your mind.',
-      isEndOfDialog: true,
+      text: 'You can take care of your Ethermon at Garden locations. You can feed them to cure their hunger and restore their energy.',
     },
     {
-      text: 'Not ready to teleport yet? Just come back when you are ready to continue your adventure.',
+      text: 'Would you like me to teleport you to a Garden location?',
+      isQuestion: true,
+      labelE: { label: "YES", fontSize: 14 },
+      triggeredByE: () => {
+        this.randomGardenTeleport()
+      },
+      ifPressE: 3,
+      labelF: { label: "NO", fontSize: 14 },
+      ifPressF: 6,
+    },
+    
+    {
+      text: 'Not ready to teleport yet? Just come back when you are ready to move to another location.',
       isEndOfDialog: true,
     },
   ]
@@ -138,6 +150,7 @@ export class Professor implements ISystem {
     if(this.host.meta_data) {
       let meta_data = JSON.parse(this.host.meta_data)
       this.gardens = meta_data.gardens;
+      this.nests = meta_data.nests;
     }
 
     // Parse metadata
