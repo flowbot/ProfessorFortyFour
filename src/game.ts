@@ -1,4 +1,4 @@
-import { Professor } from '../metas/professorfortyfour/professorfortyfour'
+import { ProfessorFortyFour } from '../metas/professorfortyfour/professorfortyfour'
 
 const professorfortyfourLandOwnerData = {
   meta_data: `{
@@ -16,4 +16,4 @@ const professorfortyfourLandOwnerData = {
 }
 
 /// --- Set up your meta system to test ---
-engine.addSystem(new Professor(null, professorfortyfourLandOwnerData))
+engine.addSystem(new ProfessorFortyFour(null, professorfortyfourLandOwnerData))
