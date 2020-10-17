@@ -150,8 +150,8 @@ export class ProfessorFortyFour implements ISystem {
 
     if(this.host.meta_data) {
       let meta_data = JSON.parse(this.host.meta_data)
-      this.gardens = meta_data.gardens;
-      this.nests = meta_data.nests;
+      this.gardens = meta_data.gardens
+      this.nests = meta_data.nests
     }
 
     // Parse metadata
