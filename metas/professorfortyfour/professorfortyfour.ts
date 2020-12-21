@@ -26,13 +26,16 @@ export class ProfessorFortyFour implements ISystem {
     {
       text: 'Would you like me to teleport you to an Egg Nest location?',
       isQuestion: true,
-      labelE: { label: "YES", fontSize: 14 },
-      triggeredByE: () => {
-        this.randomNestTeleport()
-      },
-      ifPressE: 3,
-      labelF: { label: "NO", fontSize: 14 },
-      ifPressF: 4,
+      buttons: [
+        { 
+          label: "YES", 
+          goToDialog: 3, 
+          triggeredActions: () => {
+            this.randomNestTeleport()
+          }  
+        },
+        { label: "NO", goToDialog: 4 }
+      ],
     },
     {
       text: 'bloop bloop bloop...oh you decided not to teleport? I am here if you change your mind.',
@@ -44,13 +47,14 @@ export class ProfessorFortyFour implements ISystem {
     {
       text: 'Would you like me to teleport you to a Garden location?',
       isQuestion: true,
-      labelE: { label: "YES", fontSize: 14 },
-      triggeredByE: () => {
-        this.randomGardenTeleport()
-      },
-      ifPressE: 3,
-      labelF: { label: "NO", fontSize: 14 },
-      ifPressF: 6,
+      buttons: [
+        { label: "YES", goToDialog: 3, 
+          triggeredActions: () => {
+            this.randomGardenTeleport()
+          }  
+        },
+        { label: "NO", goToDialog: 6 }
+      ],
     },
     
     {
