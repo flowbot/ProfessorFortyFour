@@ -1,5 +1,5 @@
-import * as ui from '../../node_modules/@dcl/ui-utils/uiDialog/index'
-import { Dialog } from '../../node_modules/@dcl/ui-utils/utils/types'
+import * as ui from '../../node_modules/@dcl/npc-utils/utils/types'
+import { Dialog, NPC } from '../../node_modules/@dcl/npc-utils/index'
 
 
 export class ProfessorFortyFour implements ISystem {
@@ -9,10 +9,12 @@ export class ProfessorFortyFour implements ISystem {
   nests: Array<string> = []
 
   randomGardenTeleport() {
+    //teleportTo('49,-91')
     teleportTo(this.gardens[this.gardens.length * Math.random() | 0])
   }
 
   randomNestTeleport() {
+    //teleportTo('49,-91')
     teleportTo(this.nests[this.nests.length * Math.random() | 0])
   }
 
@@ -80,31 +82,28 @@ export class ProfessorFortyFour implements ISystem {
   constructor(api, host_data) {
     // Save api
     this.api = api;
-
-    let dialogWindow = new ui.DialogWindow()
-
     ///////// Your static scene assets ///////////
     // Initialize all scene entities here
 
     /// --- Lets spawn a 3d model ---
-    this.professorModel = new Entity()
-    this.professorModel.addComponent(new GLTFShape('metas/professorfortyfour/models/alice.glb'))
-    this.professorModel.addComponent(new Transform({
-      position: new Vector3(8, 1, 8)
-    }))
-    this.professorModel.addComponent(
-      new OnPointerDown(
-        e =>{
-          if (!dialogWindow.isDialogOpen){
-            dialogWindow.openDialogWindow(this.NPCTalk, 0)
-          }
-        },
-        {
-          button: ActionButton.POINTER,
-          hoverText: 'Talk'
-        }
-      )
+    this.professorModel = new NPC(
+      { position: new Vector3(8, 1, 8) }, 
+      'metas/professorfortyfour/models/alice.glb', 
+      () => {
+         this.professorModel.talk(this.NPCTalk, 0)
+      },
+      {
+        faceUser: true,
+        darkUI: true,
+        portrait: { path: 'metas/professorfortyfour/images/alice.png', height: 256, width: 256 },
+        dialogSound: 'metas/professorfortyfour/sounds/alice.mp3', 
+        hoverText: 'CHAT',
+        onlyClickTrigger: true,
+      }
+      
+
     )
+
     const ringsModel = new Entity()
     ringsModel.addComponent(new GLTFShape('metas/professorfortyfour/models/rings.glb'))
     ringsModel.addComponent(
@@ -129,16 +128,6 @@ export class ProfessorFortyFour implements ISystem {
    */
   update(dt: number) {
     // Note: your code that repeats goes here
-    const dummyTarget = new Entity()
-    dummyTarget.addComponent(new PlaneShape())
-    dummyTarget.addComponent(new Transform())
-    addFaceUserSystem(dummyTarget)
-
-    // Track user's position
-    dummyTarget.getComponent(Transform).position = this.professorModel
-    .getComponent(Transform).position
-    if (!this.professorModel.hasComponent(TrackUserSlerp))
-    this.professorModel.addComponent(new TrackUserSlerp())
   }
 
   /**
@@ -155,10 +144,10 @@ export class ProfessorFortyFour implements ISystem {
     if(this.host.meta_data) {
       let meta_data = JSON.parse(this.host.meta_data)
       if(meta_data.nests){
-        //log("garden meta found")
+       // log("garden meta found")
         this.gardens = meta_data.gardens
       }else{
-        //log("going to the backup")
+       // log("going to the backup")
         this.gardens = ["10,70","-115,-69","119,-20","-125,-67","-133,-68","-138,-124","-140,-50","140,-56","142,-59","-144,-123","144,-53","14,-86","21,-125","2,-135","21,88","24,-137","-24,-23","-24,7","28,-119","31,-65","3,-34","-35,-87","-38,-53","-39,31","4,-111","-44,-110","-48,-56","-48,-57","49,-91","5,-111","-55,-3","56,119","57,28","58,-24","60,-124","6,-111","62,29","-62,45","6,-64","-75,-63","88,29","-91,-91"]
       }
       if(meta_data.nests){
@@ -168,6 +157,8 @@ export class ProfessorFortyFour implements ISystem {
         //log("going to the backup")
         this.nests = ["2,-119", "49,-91", "28,-119", "3,-34", "-48,-57", "-92,-88"]
       }
+      //log(this.gardens)
+      //log(this.nests)
 
     }
 
@@ -199,48 +190,4 @@ export class ProfessorFortyFour implements ISystem {
     }
   }
 
-}
-
-@Component("trackUserSlerp")
-class TrackUserSlerp {
-  fraction: number = 0
-}
-
-let currentCameraPosition = new Vector3()
-
-// Rotates robot to face the user during interaction
-export function addFaceUserSystem(dummyTarget: Entity) {
-  class FaceUserSystem implements ISystem {
-    private robotGroup: ComponentGroup = engine.getComponentGroup(
-      TrackUserSlerp
-    )
-
-    update(dt: number) {
-      for (let robot of this.robotGroup.entities) {
-        let transform = robot.getComponent(Transform)
-        let trackUserSlerp = robot.getComponent(TrackUserSlerp)
-
-        // Check if player moves
-        if(!currentCameraPosition.equals(Camera.instance.position)) {
-          // Update current camera position
-          currentCameraPosition.copyFrom(Camera.instance.position)
-          trackUserSlerp.fraction = 0
-        }
-
-        dummyTarget.getComponent(Transform).lookAt(Camera.instance.position)
-
-        trackUserSlerp.fraction += dt / 12
-
-        if (trackUserSlerp.fraction < 1) {
-          transform.rotation = Quaternion.Slerp(
-            robot.getComponent(Transform).rotation,
-            dummyTarget.getComponent(Transform).rotation,
-            trackUserSlerp.fraction
-          )
-        }
-      }
-    }
-  }
-
-  engine.addSystem(new FaceUserSystem())
 }
