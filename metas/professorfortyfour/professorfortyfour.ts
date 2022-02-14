@@ -1,5 +1,4 @@
-import * as ui from '../../node_modules/@dcl/npc-utils/utils/types'
-import { Dialog, NPC } from '../../node_modules/@dcl/npc-utils/index'
+import { Dialog, NPC } from '@dcl/npc-scene-utils'
 
 
 export class ProfessorFortyFour implements ISystem {
@@ -15,7 +14,7 @@ export class ProfessorFortyFour implements ISystem {
 
   randomNestTeleport() {
     //teleportTo('49,-91')
-    teleportTo(this.nests[this.nests.length * Math.random() | 0])
+    teleportTo(this.nests[Math.floor(this.nests.length * Math.random()) | 0])
   }
 
   NPCTalk: Dialog[] = [
@@ -29,12 +28,12 @@ export class ProfessorFortyFour implements ISystem {
       text: 'Would you like me to teleport you to an Egg Nest location?',
       isQuestion: true,
       buttons: [
-        { 
-          label: "YES", 
-          goToDialog: 3, 
+        {
+          label: "YES",
+          goToDialog: 3,
           triggeredActions: () => {
             this.randomNestTeleport()
-          }  
+          }
         },
         { label: "NO", goToDialog: 4 }
       ],
@@ -50,15 +49,15 @@ export class ProfessorFortyFour implements ISystem {
       text: 'Would you like me to teleport you to a Garden location?',
       isQuestion: true,
       buttons: [
-        { label: "YES", goToDialog: 3, 
+        { label: "YES", goToDialog: 3,
           triggeredActions: () => {
             this.randomGardenTeleport()
-          }  
+          }
         },
         { label: "NO", goToDialog: 6 }
       ],
     },
-    
+
     {
       text: 'Not ready to teleport yet? Just come back when you are ready to move to another location.',
       isEndOfDialog: true,
@@ -87,8 +86,8 @@ export class ProfessorFortyFour implements ISystem {
 
     /// --- Lets spawn a 3d model ---
     this.professorModel = new NPC(
-      { position: new Vector3(8, 1, 8) }, 
-      'metas/professorfortyfour/models/alice.glb', 
+      { position: new Vector3(8, 1, 8) },
+      'metas/professorfortyfour/models/alice.glb',
       () => {
          this.professorModel.talk(this.NPCTalk, 0)
       },
@@ -96,11 +95,11 @@ export class ProfessorFortyFour implements ISystem {
         faceUser: true,
         darkUI: true,
         portrait: { path: 'metas/professorfortyfour/images/alice.png', height: 256, width: 256 },
-        dialogSound: 'metas/professorfortyfour/sounds/alice.mp3', 
+        dialogSound: 'metas/professorfortyfour/sounds/alice.mp3',
         hoverText: 'CHAT',
         onlyClickTrigger: true,
       }
-      
+
 
     )
 
